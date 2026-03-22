@@ -24,6 +24,8 @@ const createdByUrl = footerData.createdByUrl || 'https://ferkomedia.sk';
 const fProductsTitle = footerData.sectionProductsTitle || 'Produkty';
 const fPagesTitle = footerData.sectionPagesTitle || 'Stránky';
 const fContactTitle = footerData.sectionContactTitle || 'Kontakt';
+const skPath = isPL ? (currentPath.replace(/^\/pl/, '') || '/') : currentPath;
+const plPath = isPL ? currentPath : '/pl' + currentPath;
 ---
 <!DOCTYPE html>
 <html lang={isPL ? 'pl' : 'sk'}>
@@ -32,6 +34,16 @@ const fContactTitle = footerData.sectionContactTitle || 'Kontakt';
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content={description} />
   <title>{title}</title>
+  <link rel="canonical" href={`https://martindiesel.sk${currentPath}`} />
+  <link rel="alternate" hreflang="sk" href={`https://martindiesel.sk${skPath}`} />
+  <link rel="alternate" hreflang="pl" href={`https://martindiesel.sk${plPath}`} />
+  <link rel="alternate" hreflang="x-default" href={`https://martindiesel.sk${skPath}`} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={`https://martindiesel.sk${currentPath}`} />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content={isPL ? 'pl_PL' : 'sk_SK'} />
+  <meta property="og:site_name" content={siteName} />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="manifest" href="/manifest.json" />
   <meta name="theme-color" content="#0f172a" />
@@ -52,7 +64,7 @@ const fContactTitle = footerData.sectionContactTitle || 'Kontakt';
     </a>
     <nav class="nav-desktop">
       {navItems.map((item: any, i: number) => (
-        <a href={item.href} class:list={[i === navItems.length - 1 ? 'nav-cta' : '', { active: item.href === '/' ? currentPath === '/' : currentPath.startsWith(item.href) }]}>{item.label}</a>
+          <a href={item.href} class:list={[i === navItems.length - 1 ? 'nav-cta' : '', { active: item.href === '/' ? currentPath === '/' : currentPath.startsWith(item.href) }]}>{item.label}</a>
       ))}
     </nav>
     <div class="lang-switch">
@@ -82,7 +94,7 @@ const fContactTitle = footerData.sectionContactTitle || 'Kontakt';
       <p class="footer-tagline">{siteData.siteDescription}</p>
     </div>
     {productLinks.length > 0 && (
-      <div class="footer-links"><h4>{fProductsTitle}</h4>{productLinks.map((l: any) => (<a href={isPL ? `/pl${l.href}` : l.href}>{l.label}</a>))}</div>
+        <div class="footer-links"><h4>{fProductsTitle}</h4>{productLinks.map((l: any) => (<a href={isPL ? `/pl${l.href}` : l.href}>{l.label}</a>))}</div>
     )}
     <div class="footer-links"><h4>{isPL ? 'Strony' : fPagesTitle}</h4>{navItems.map((item: any) => (<a href={item.href}>{item.label}</a>))}</div>
     <div class="footer-contact">
@@ -98,13 +110,13 @@ const fContactTitle = footerData.sectionContactTitle || 'Kontakt';
 </body>
 </html>
 <script>
-const h=document.getElementById('hamburger'),o=document.getElementById('offcanvas'),v=document.getElementById('overlay'),c=document.getElementById('oc-close'),hd=document.getElementById('site-header');
-function open(){o?.classList.add('is-open');v?.classList.add('is-open');document.body.style.overflow='hidden';}
-function close(){o?.classList.remove('is-open');v?.classList.remove('is-open');document.body.style.overflow='';}
-h?.addEventListener('click',open);c?.addEventListener('click',close);v?.addEventListener('click',close);
-o?.querySelectorAll('.oc-links a').forEach(l=>l.addEventListener('click',close));
-window.addEventListener('scroll',()=>{hd?.classList.toggle('scrolled',window.scrollY>10);});
-if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js');}
+  const h=document.getElementById('hamburger'),o=document.getElementById('offcanvas'),v=document.getElementById('overlay'),c=document.getElementById('oc-close'),hd=document.getElementById('site-header');
+  function open(){o?.classList.add('is-open');v?.classList.add('is-open');document.body.style.overflow='hidden';}
+  function close(){o?.classList.remove('is-open');v?.classList.remove('is-open');document.body.style.overflow='';}
+  h?.addEventListener('click',open);c?.addEventListener('click',close);v?.addEventListener('click',close);
+  o?.querySelectorAll('.oc-links a').forEach(l=>l.addEventListener('click',close));
+  window.addEventListener('scroll',()=>{hd?.classList.toggle('scrolled',window.scrollY>10);});
+  if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js');}
 </script>
 <style is:global>
 :root{--c-primary:#16a34a;--c-primary-light:#22c55e;--c-primary-dark:#15803d;--c-primary-bg:#f0fdf4;--c-primary-100:#bbf7d0;--c-dark:#0f172a;--c-dark-2:#1e293b;--c-dark-3:#334155;--c-text:#0f172a;--c-text-2:#475569;--c-muted:#94a3b8;--c-bg:#fff;--c-bg-alt:#f8fafc;--c-border:#e2e8f0;--max-w:1140px;--r:12px;--r-sm:8px;--r-lg:16px;--shadow-sm:0 1px 3px rgba(15,23,42,.06);--shadow-md:0 4px 20px rgba(15,23,42,.08);--font-display:'Rubik',sans-serif;--font-body:'Rubik',sans-serif;--ease:cubic-bezier(.4,0,.2,1)}
