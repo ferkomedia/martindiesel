@@ -11,7 +11,7 @@ export default defineConfig({
   integrations: [
     react(),
     markdoc(),
-    keystatic({ cloud: { project: 'ferkomedia/martindiesel' } }),
+    keystatic({ cloud: { project: 'martindiesel/martindiesel' } }),
   ],
   site: 'https://martindiesel.sk',
 });
