@@ -1,0 +1,38 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+export async function getStaticPaths() {
+  const posts = await getCollection('posts-pl');
+  return posts.map((p) => {
+    const slug = p.id.replace(/\.mdoc$/, '').replace(/\.md$/, '');
+    return { params: { slug }, props: { post: p } };
+  });
+}
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+<BaseLayout title={`${post.data.title} | Martin Diesel`} description={post.data.excerpt}>
+  <div class="page-hero"><div class="page-hero-inner">
+    <a href="/pl/blog" class="blink">← Wszystkie artykuły</a>
+    <div class="hero-meta"><span class="hero-date">{new Date(post.data.publishDate).toLocaleDateString('pl-PL')}</span></div>
+    <h1>{post.data.title}</h1>{post.data.excerpt&&<p class="hero-desc">{post.data.excerpt}</p>}
+  </div></div>
+  <article class="art"><div class="art-content"><Content /></div>
+    <div class="art-cta"><div><h3>Masz pytanie do tego artykułu?</h3><p>Nasi technicy chętnie doradzą.</p></div><a href="/pl/kontakt" class="btn btn-primary">Skontaktuj się →</a></div>
+    <a href="/pl/blog" class="blink2">← Powrót do bloga</a>
+  </article>
+</BaseLayout>
+<style>
+.blink{display:inline-flex;align-items:center;gap:.4rem;color:#64748b;text-decoration:none;font-family:var(--font-display);font-weight:500;font-size:.85rem;margin-bottom:1.5rem;transition:color .2s}.blink:hover{color:#fff}
+.art{max-width:860px;margin:0 auto;padding:0 0 4rem}
+.art-content :global(h2){font-size:1.4rem;margin:2.5rem 0 .75rem;padding-bottom:.5rem;border-bottom:1px solid var(--c-border)}
+.art-content :global(h3){font-size:1.15rem;margin:2rem 0 .5rem}
+.art-content :global(p){margin-bottom:1rem;color:var(--c-text-2);line-height:1.8;font-size:.95rem}
+.art-content :global(strong){color:var(--c-text)}
+.art-content :global(ul){margin:.5rem 0 1.25rem 1.25rem;color:var(--c-text-2)}
+.art-content :global(li){margin-bottom:.4rem;line-height:1.7}
+.art-cta{display:flex;align-items:center;gap:1.25rem;background:var(--c-bg-alt);border:1px solid var(--c-border);border-radius:var(--r);padding:1.5rem 2rem;margin-top:3rem}
+.art-cta h3{font-size:1rem;margin-bottom:.1rem}.art-cta p{font-size:.82rem;color:var(--c-text-2);margin-bottom:0}.art-cta .btn{flex-shrink:0;margin-left:auto}
+.blink2{display:inline-flex;align-items:center;gap:.4rem;color:var(--c-primary);text-decoration:none;font-family:var(--font-display);font-weight:500;font-size:.9rem;margin-top:2rem}
+@media(max-width:768px){.art-cta{flex-direction:column;text-align:center}.art-cta .btn{margin-left:0}}
+</style>

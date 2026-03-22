@@ -1,0 +1,38 @@
+{
+  "heroTitle": "Vyrábame diely, na ktoré sa",
+  "heroAccent": "môžete spoľahnúť",
+  "heroDesc": "Pretože kvalita motorových komponentov rozhoduje o spoľahlivosti celého stroja.",
+  "stats": [
+    { "number": "50+", "label": "rokov tradície výroby" },
+    { "number": "URII & URIV", "label": "motory, ktoré podporujeme" },
+    { "number": "CNC", "label": "presnosť na mikrometroch" },
+    { "number": "100%", "label": "kontrola každého dielu" }
+  ],
+  "whoWeAreTitle": "Martin Diesel",
+  "whoWeAreText": "Martin Diesel je slovenský výrobca presných motorových komponentov a náhradných dielov pre priemyselné a poľnohospodárske motory. Naša výrobná prevádzka v Martine funguje na základe moderných CNC technológií, ktoré zaručujú maximálnu presnosť a opakovateľnosť výroby. Špecializujeme sa na výrobu blokov motorov, vačkových hriadeľov, hláv valcov, zdvíhadiel ventilov a ďalších kritických motorových dielov.\n\nPoužívame výhradne overené materiály – od kvalitných liatinových zliatin až po kalené ocele s vysokou odolnosťou proti opotrebeniu. Naše produkty nájdete v traktoroch, stavebných strojoch, priemyselných zariadeniach a ďalších náročných aplikáciách.",
+  "features": [
+    { "title": "Slovenská výroba motorových dielov", "description": "Každý komponent vyrábame priamo v našej prevádzke s plnou kontrolou kvality." },
+    { "title": "Od výrobcu priamo k Vám", "description": "Bez sprostredkovateľov, s kompletnou technickou podporou a certifikátmi kvality." },
+    { "title": "Presnosť, na ktorú sa môžete spoľahnúť", "description": "Moderné CNC technológie zaručujú opakovateľnosť a presnosť každého vyrobeného dielu." },
+    { "title": "Komunikujte priamo s výrobcom", "description": "Priama komunikácia s výrobcom, flexibilita pri sériových aj individuálnych zákazkách a technická podpora pri výbere správnych dielov." }
+  ],
+  "whatWeDoTitle": "Čo vyrábame",
+  "whatWeDoText": "Naša výrobná prevádzka využíva najmodernejšie CNC technológie pre mimoriadnu presnosť obrábania. Každý výrobok opúšťa našu dielňu s garantovanými rozmermi a povrchovou úpravou na úrovni originálnych dielov.",
+  "productList": [
+    "Bloky motorov 4V a 6V",
+    "Hlavy valcov a kompletné hlavy s ventilmi",
+    "Vačkové hriadele 4V a 6V",
+    "Olejové vane",
+    "Zdvíhadlá ventilov a ústrojenstvá ovládania",
+    "Čapy predných náprav a stredové čapy"
+  ],
+  "forWhomTitle": "Spolupráca",
+  "applications": [
+    { "title": "Rozširujeme sieť distribútorov", "description": "Hľadáme nových partnerov" },
+    { "title": "Predaj", "description": "Tovar dodávame na základe objednávky" },
+    { "title": "Kontakt", "description": "Kontaktujte nás s akoukoľvek otázkou" },
+    { "title": "Produkty", "description": "Pozrite si ponuku našich výrobkov" }
+  ],
+  "ctaTitle": "Martin Diesel znamená slovenskú remeselno-strojársku kvalitu",
+  "ctaText": "Spojenú s modernou výrobnou technológiou. Vyrábame diely, na ktoré sa môžete spoľahnúť – pretože kvalita motorových komponentov rozhoduje o spoľahlivosti celého stroja."
+}

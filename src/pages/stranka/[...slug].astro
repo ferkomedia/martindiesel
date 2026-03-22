@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+export async function getStaticPaths() {
+  const pages = await getCollection('pages');
+  return pages.map((p) => {
+    const slug = p.id.replace(/\.mdoc$/, '').replace(/\.md$/, '');
+    return { params: { slug }, props: { page: p } };
+  });
+}
+const { page } = Astro.props;
+const { Content } = await render(page);
+---
+<BaseLayout title={`${page.data.seoTitle||page.data.title} | Martin Diesel`} description={page.data.seoDescription||''}>
+  <div class="page-hero"><div class="page-hero-inner"><h1>{page.data.title}</h1>{page.data.seoDescription&&<p class="hero-desc">{page.data.seoDescription}</p>}</div></div>
+  <article class="sc"><Content /></article>
+</BaseLayout>
+<style>
+.sc{max-width:860px;margin:0 auto;padding:0 0 4rem}
+.sc :global(h2){font-size:1.4rem;margin:2.5rem 0 .75rem;padding-bottom:.5rem;border-bottom:1px solid var(--c-border)}
+.sc :global(h3){font-size:1.15rem;margin:2rem 0 .5rem}
+.sc :global(p){margin-bottom:1rem;color:var(--c-text-2);line-height:1.8;font-size:.95rem}
+.sc :global(ul){margin:.5rem 0 1.25rem 1.25rem;color:var(--c-text-2)}
+.sc :global(li){margin-bottom:.4rem;line-height:1.7}
+.sc :global(img){max-width:100%;border-radius:var(--r);margin:1.5rem 0}
+</style>

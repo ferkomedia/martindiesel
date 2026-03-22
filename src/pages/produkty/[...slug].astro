@@ -1,0 +1,58 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+import fs from 'node:fs';
+
+let d: any = {};
+try { d = JSON.parse(fs.readFileSync('src/content/pages/products-settings.json', 'utf-8')); } catch {}
+const siteData = JSON.parse(fs.readFileSync('src/content/settings/site.json', 'utf-8'));
+
+export async function getStaticPaths() {
+  const products = await getCollection('services');
+  return products.map((product) => {
+    const slug = product.id.replace(/\.mdoc$/, '').replace(/\.md$/, '');
+    return { params: { slug }, props: { product } };
+  });
+}
+
+const { product } = Astro.props;
+const { Content } = await render(product);
+const cats: Record<string,string> = { bloky:'Bloky motorov', hlavy:'Hlavy valcov', hriadele:'Vačkové hriadele', vane:'Olejové vane', capy:'Čapy a zdvíhadlá', subory:'Súbory komponentov' };
+const catLabel = cats[product.data.category||'']||'Náhradný diel';
+const motors: Record<string,string> = { urii:'URII', uriv:'URIV', both:'URII / URIV' };
+const motorLabel = motors[product.data.motorType||'both']||'';
+const phone = siteData.phone || '+421 43 4224 130';
+---
+<BaseLayout title={`${product.data.title} | Martin Diesel`}>
+  <div class="page-hero"><div class="page-hero-inner">
+    <a href="/produkty" class="blink">← {d.detailBackText||'Všetky produkty'}</a>
+    <div class="hero-meta"><span class="hero-cat">{catLabel}</span>{motorLabel&&<span class="hero-cat" style="background:rgba(255,255,255,.1);color:#e2e8f0">{motorLabel}</span>}</div>
+    <h1>{product.data.title}</h1>{product.data.shortDescription&&<p class="hero-desc">{product.data.shortDescription}</p>}
+  </div></div>
+  <article class="pd">
+    {product.data.featuredImage&&(<div class="pd-media"><img src={product.data.featuredImage} alt={product.data.title} class="pd-img"/></div>)}
+    <div class="pd-actions">
+      <a href="/kontakt" class="btn btn-primary">{d.detailInquiryBtn||'Dopyt na tento diel'} →</a>
+      <a href={`tel:${phone.replace(/\s/g,'')}`} class="btn btn-outline">{phone}</a>
+    </div>
+    <div class="pd-content"><Content /></div>
+    <div class="pd-cta">
+      <div><h3>{d.detailCtaTitle||'Potrebujete tento diel?'}</h3><p>{d.detailCtaText||''}</p></div>
+      <a href="/kontakt" class="btn btn-primary">{d.detailCtaBtn||'Odoslať dopyt'} →</a>
+    </div>
+  </article>
+</BaseLayout>
+<style>
+.blink{display:inline-flex;align-items:center;gap:.4rem;color:#64748b;text-decoration:none;font-family:var(--font-display);font-weight:500;font-size:.85rem;margin-bottom:1.5rem;transition:color .2s}.blink:hover{color:#fff}
+.pd{padding:0 0 4rem}.pd-media{margin-bottom:2rem;border-radius:var(--r);overflow:hidden;border:1px solid var(--c-border)}
+.pd-img{width:100%;max-height:480px;object-fit:cover;display:block}
+.pd-actions{display:flex;gap:.75rem;margin-bottom:2.5rem;flex-wrap:wrap}
+.pd-content :global(h1){display:none}.pd-content :global(h2){font-size:1.3rem;margin:2rem 0 .75rem}
+.pd-content :global(h3){font-size:1.1rem;margin:1.5rem 0 .5rem}
+.pd-content :global(p){margin-bottom:1rem;color:var(--c-text-2);line-height:1.8;font-size:.95rem}
+.pd-content :global(ul){margin:.5rem 0 1rem 1.25rem;color:var(--c-text-2)}
+.pd-content :global(li){margin-bottom:.3rem;line-height:1.7}
+.pd-cta{display:flex;align-items:center;gap:1.25rem;background:var(--c-bg-alt);border:1px solid var(--c-border);border-radius:var(--r);padding:1.5rem 2rem;margin-top:2.5rem}
+.pd-cta h3{font-size:1rem;margin-bottom:.1rem}.pd-cta p{font-size:.82rem;color:var(--c-text-2);margin-bottom:0}.pd-cta .btn{flex-shrink:0;margin-left:auto}
+@media(max-width:768px){.pd-actions{flex-direction:column}.pd-actions .btn{justify-content:center}.pd-cta{flex-direction:column;text-align:center}.pd-cta .btn{margin-left:0}}
+</style>

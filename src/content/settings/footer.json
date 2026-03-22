@@ -1,0 +1,14 @@
+{
+  "copyrightText": "Martin Diesel",
+  "createdBy": "FerkoMedia",
+  "createdByUrl": "https://ferkomedia.sk",
+  "sectionProductsTitle": "Produkty",
+  "sectionPagesTitle": "Stránky",
+  "sectionContactTitle": "Kontakt",
+  "productLinks": [
+    { "label": "Bloky motorov", "href": "/produkty" },
+    { "label": "Hlavy valcov", "href": "/produkty" },
+    { "label": "Vačkové hriadele", "href": "/produkty" },
+    { "label": "Olejové vane", "href": "/produkty" }
+  ]
+}

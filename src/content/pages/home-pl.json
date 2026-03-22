@@ -1,0 +1,14 @@
+{
+  "heroTitle": "Producent oryginalnych części silnikowych",
+  "heroSubtitle": "Martin Diesel – jesteśmy producentem z własną produkcją, gdzie każda część przechodzi ścisłą kontrolę jakości od pierwszego kroku procesu produkcyjnego aż po finalną ekspedycję.",
+  "ctaText": "Katalog produktów",
+  "ctaLink": "/pl/produkty",
+  "features": [
+    { "title": "Słowacka produkcja części silnikowych", "description": "Każdy komponent produkujemy bezpośrednio w naszym zakładzie z pełną kontrolą jakości." },
+    { "title": "Od producenta bezpośrednio do Ciebie", "description": "Bez pośredników, z kompletnym wsparciem technicznym i certyfikatami jakości." },
+    { "title": "Precyzja, na którą możesz liczyć", "description": "Nowoczesne technologie CNC gwarantują powtarzalność i precyzję każdej wyprodukowanej części." },
+    { "title": "Komunikuj się bezpośrednio z producentem", "description": "Bezpośrednia komunikacja z producentem, elastyczność przy zamówieniach seryjnych i indywidualnych oraz wsparcie techniczne." }
+  ],
+  "ctaBottomTitle": "Produkcja oryginalnych części zamiennych do silników URII i URIV",
+  "ctaBottomText": "Nasz zakład produkcyjny wykorzystuje najnowocześniejsze technologie CNC, które pozwalają nam osiągnąć wyjątkową precyzję obróbki."
+}

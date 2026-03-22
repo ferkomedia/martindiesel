@@ -1,0 +1,24 @@
+{
+  "heroLabel": "Kontakt",
+  "heroTitle": "Kontaktujte náš",
+  "heroAccent": "obchodný tím",
+  "heroDesc": "Pre technické konzultácie, overenie kompatibility dielov alebo cenovú ponuku.",
+  "phoneCardTitle": "Telefón",
+  "phoneCardSub": "Po–Pi: 7:00 – 15:30",
+  "emailCardTitle": "Email",
+  "emailCardSub": "Odpovieme do 24 hodín",
+  "addressCardTitle": "Adresa",
+  "formTitle": "Napíšte nám",
+  "formBtnText": "Odoslať dopyt",
+  "mapTitle": "Kde nás nájdete",
+  "mapAddress": "Prevádzka Martin — Langsfeldova 1, 036 01 Martin",
+  "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2615.8!2d18.9217!3d49.0658!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47154b8a0e3e1c1d%3A0x0!2zTGFuZ3NmZWxkb3ZhIDEsIE1hcnRpbg!5e0!3m2!1ssk!2ssk!4v1",
+  "formSubjects": [
+    "Dopyt na náhradný diel",
+    "Technická konzultácia",
+    "Overenie kompatibility",
+    "Cenová ponuka",
+    "Spolupráca / distribúcia",
+    "Iné"
+  ]
+}

@@ -1,0 +1,72 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import fs from 'node:fs';
+const d = JSON.parse(fs.readFileSync('src/content/pages/home-pl.json', 'utf-8'));
+const siteData = JSON.parse(fs.readFileSync('src/content/settings/site.json', 'utf-8'));
+const services = await getCollection('services', ({ data }) => data.featured);
+const sorted = services.sort((a, b) => (a.data.order||0) - (b.data.order||0));
+const phone = siteData.phone || '';
+---
+<BaseLayout title={`Martin Diesel — ${d.heroTitle}`}>
+  <section class="hero">
+    <div class="hero-content fade-up">
+      <h1>{d.heroTitle}</h1>
+      <p class="hero-desc">{d.heroSubtitle}</p>
+      <div class="hero-actions">
+        <a href={d.ctaLink} class="btn btn-primary">{d.ctaText} →</a>
+        <a href="/pl/kontakt" class="btn btn-dark">Skontaktuj się</a>
+      </div>
+    </div>
+    <div class="hero-visual fade-up" style="animation-delay:.15s"><div class="hero-stats">
+      <div class="hs-item"><span class="hs-num">50+</span><span class="hs-label">lat tradycji</span></div>
+      <div class="hs-item"><span class="hs-num">CNC</span><span class="hs-label">precyzyjna obróbka</span></div>
+      <div class="hs-item"><span class="hs-num">URII</span><span class="hs-label">i URIV silniki</span></div>
+    </div></div>
+  </section>
+  {d.features?.length > 0 && (<section class="section section-alt"><div class="section-constrain"><div class="features-grid">
+    {d.features.map((f:any) => (<div class="feature-card fade-up"><h3>{f.title}</h3><p>{f.description}</p></div>))}
+  </div></div></section>)}
+  {sorted.length > 0 && (<section class="section">
+    <span class="slabel">Katalog produktów</span><h2 class="stitle">Części zamienne do silników URII i URIV</h2>
+    <div class="products-grid">{sorted.map((p) => (
+      <a href={`/pl/produkty/${p.id.replace(/\.mdoc$/,"").replace(/\.md$/,"")}`} class="product-card fade-up"><div class="pc-img">{p.data.featuredImage?(<img src={p.data.featuredImage} alt={p.data.title}/>):(<div class="pc-ph"></div>)}</div>
+      <div class="pc-body"><h3>{p.data.title}</h3>{p.data.shortDescription&&<p>{p.data.shortDescription}</p>}<span class="pc-link">Więcej info →</span></div></a>
+    ))}</div>
+  </section>)}
+  <section class="cta-section"><div class="cta-inner fade-up"><h2>{d.ctaBottomTitle}</h2><p>{d.ctaBottomText}</p>
+    <div class="cta-actions"><a href="/pl/kontakt" class="btn btn-white">Napisz do nas →</a>{phone&&<a href={`tel:${phone.replace(/\s/g,'')}`} class="cta-phone">{phone}</a>}</div>
+  </div></section>
+</BaseLayout>
+<style>
+.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:3rem;align-items:center;padding:3rem 0 4rem}
+.hero h1{font-size:clamp(2rem,3.5vw,2.75rem);line-height:1.1;margin-bottom:1rem}
+.hero-desc{font-size:1.02rem;color:var(--c-text-2);line-height:1.7;margin-bottom:1.75rem;max-width:500px}
+.hero-actions{display:flex;gap:.65rem;flex-wrap:wrap}
+.hero-stats{display:flex;flex-direction:column;gap:1.25rem;padding:2rem;background:var(--c-dark);border-radius:var(--r-lg)}
+.hs-item{display:flex;flex-direction:column;padding:1rem 0;border-bottom:1px solid var(--c-dark-3)}.hs-item:last-child{border-bottom:none}
+.hs-num{font-family:var(--font-display);font-size:1.75rem;font-weight:800;color:var(--c-primary-light)}.hs-label{font-size:.85rem;color:#94a3b8}
+@media(max-width:768px){.hero{grid-template-columns:1fr;gap:2rem;padding:2rem 0 3rem}.hero-actions{flex-direction:column}}
+.section-alt{background:var(--c-bg-alt);margin-left:calc(-50vw + 50%);margin-right:calc(-50vw + 50%);padding:4rem 2rem}
+.section-constrain{max-width:var(--max-w);margin:0 auto}.section{padding:4rem 0}
+.slabel{display:block;margin-bottom:.25rem;font-family:var(--font-display);font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--c-primary)}
+.stitle{font-size:1.85rem;margin-bottom:2rem}
+.features-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem}
+.feature-card{padding:1.5rem;border-radius:var(--r);background:#fff;border:1px solid var(--c-border)}
+.feature-card h3{font-size:1rem;margin-bottom:.3rem}.feature-card p{font-size:.85rem;color:var(--c-text-2);line-height:1.6}
+@media(max-width:960px){.features-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:520px){.features-grid{grid-template-columns:1fr}}
+.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.25rem}
+.product-card{background:#fff;border:1px solid var(--c-border);border-radius:var(--r);overflow:hidden;text-decoration:none;color:inherit;transition:all .25s}
+.product-card:hover{border-color:var(--c-primary);box-shadow:var(--shadow-md);transform:translateY(-2px)}
+.pc-img{height:180px;overflow:hidden;background:var(--c-bg-alt)}.pc-img img{width:100%;height:100%;object-fit:cover}
+.pc-ph{width:100%;height:100%;background:#f1f5f9}
+.pc-body{padding:1.25rem}.product-card h3{font-size:1.05rem;margin-bottom:.3rem}
+.product-card p{font-size:.85rem;color:var(--c-text-2);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.pc-link{font-family:var(--font-display);font-weight:600;font-size:.8rem;color:var(--c-primary);margin-top:.75rem;display:inline-block}
+.cta-section{padding:4.5rem 0}.cta-inner{background:var(--c-dark);border-radius:20px;padding:3.5rem;text-align:center;color:#fff}
+.cta-inner h2{font-size:1.85rem;color:#fff;margin-bottom:.6rem}
+.cta-inner>p{font-size:1rem;color:#94a3b8;margin-bottom:1.75rem;max-width:480px;margin-left:auto;margin-right:auto}
+.cta-actions{display:flex;align-items:center;justify-content:center;gap:1.5rem;flex-wrap:wrap}
+.cta-phone{color:#fff;text-decoration:none;font-family:var(--font-display);font-weight:600;font-size:.95rem;opacity:.9}
+@media(max-width:768px){.cta-inner{padding:2.5rem 1.5rem}}
+</style>

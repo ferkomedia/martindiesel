@@ -1,0 +1,45 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const plProducts = await getCollection('services-pl');
+  const skProducts = await getCollection('services');
+  return plProducts.map((x) => {
+    const slug = x.id.replace(/\.mdoc$/, '').replace(/\.md$/, '');
+    const skMatch = skProducts.find((sk) => sk.id.replace(/\.mdoc$/, '').replace(/\.md$/, '') === slug);
+    return { params: { slug }, props: { product: x, skProduct: skMatch || null } };
+  });
+}
+
+const { product, skProduct } = Astro.props;
+const { Content } = await render(product);
+const img = product.data.featuredImage || skProduct?.data?.featuredImage || '';
+const cats: Record<string,string> = { bloky:'Bloki silników', hlavy:'Głowice cylindrów', hriadele:'Wałki rozrządu', vane:'Miski olejowe', capy:'Sworznie', subory:'Zestawy komponentów' };
+const catLabel = cats[product.data.category||'']||'Część zamienna';
+---
+<BaseLayout title={`${product.data.title} | Martin Diesel`}>
+  <div class="page-hero"><div class="page-hero-inner">
+    <a href="/pl/produkty" class="blink">← Wszystkie produkty</a>
+    <div class="hero-meta"><span class="hero-cat">{catLabel}</span></div>
+    <h1>{product.data.title}</h1>{product.data.shortDescription&&<p class="hero-desc">{product.data.shortDescription}</p>}
+  </div></div>
+  <article class="pd">
+    {img&&(<div class="pd-media"><img src={img} alt={product.data.title} class="pd-img"/></div>)}
+    <div class="pd-actions"><a href="/pl/kontakt" class="btn btn-primary">Zapytaj o tę część →</a><a href="tel:+421434224130" class="btn btn-outline">+421 43 4224 130</a></div>
+    <div class="pd-content"><Content /></div>
+    <div class="pd-cta"><div><h3>Potrzebujesz tę część?</h3><p>Skontaktuj się z naszym zespołem handlowym.</p></div><a href="/pl/kontakt" class="btn btn-primary">Wyślij zapytanie →</a></div>
+  </article>
+</BaseLayout>
+<style>
+  .blink{display:inline-flex;align-items:center;gap:.4rem;color:#64748b;text-decoration:none;font-family:var(--font-display);font-weight:500;font-size:.85rem;margin-bottom:1.5rem;transition:color .2s}.blink:hover{color:#fff}
+  .pd{padding:0 0 4rem}.pd-media{margin-bottom:2rem;border-radius:var(--r);overflow:hidden;border:1px solid var(--c-border)}
+  .pd-img{width:100%;max-height:480px;object-fit:cover;display:block}
+  .pd-actions{display:flex;gap:.75rem;margin-bottom:2.5rem;flex-wrap:wrap}
+  .pd-content :global(h1){display:none}.pd-content :global(h2){font-size:1.3rem;margin:2rem 0 .75rem}
+  .pd-content :global(p){margin-bottom:1rem;color:var(--c-text-2);line-height:1.8;font-size:.95rem}
+  .pd-content :global(ul){margin:.5rem 0 1rem 1.25rem;color:var(--c-text-2)}
+  .pd-cta{display:flex;align-items:center;gap:1.25rem;background:var(--c-bg-alt);border:1px solid var(--c-border);border-radius:var(--r);padding:1.5rem 2rem;margin-top:2.5rem}
+  .pd-cta h3{font-size:1rem;margin-bottom:.1rem}.pd-cta p{font-size:.82rem;color:var(--c-text-2);margin-bottom:0}.pd-cta .btn{flex-shrink:0;margin-left:auto}
+  @media(max-width:768px){.pd-actions{flex-direction:column}.pd-actions .btn{justify-content:center}.pd-cta{flex-direction:column;text-align:center}.pd-cta .btn{margin-left:0}}
+</style>

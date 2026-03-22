@@ -1,0 +1,38 @@
+{
+  "heroTitle": "Produkujemy części, na które",
+  "heroAccent": "możesz liczyć",
+  "heroDesc": "Ponieważ jakość komponentów silnikowych decyduje o niezawodności całej maszyny.",
+  "stats": [
+    { "number": "50+", "label": "lat tradycji produkcji" },
+    { "number": "URII & URIV", "label": "silniki, które wspieramy" },
+    { "number": "CNC", "label": "precyzja na mikrometrach" },
+    { "number": "100%", "label": "kontrola każdej części" }
+  ],
+  "whoWeAreTitle": "Martin Diesel",
+  "whoWeAreText": "Martin Diesel jest słowackim producentem precyzyjnych komponentów silnikowych i części zamiennych do silników przemysłowych i rolniczych. Nasz zakład produkcyjny w Martinie działa w oparciu o nowoczesne technologie CNC, które gwarantują maksymalną precyzję i powtarzalność produkcji.\n\nStosujemy wyłącznie sprawdzone materiały – od wysokiej jakości stopów żeliwnych po hartowane stale o wysokiej odporności na ścieranie.",
+  "features": [
+    { "title": "Własna produkcja", "description": "Każdy komponent produkujemy bezpośrednio w naszym zakładzie z pełną kontrolą jakości." },
+    { "title": "Od producenta bezpośrednio do Ciebie", "description": "Bez pośredników, z kompletnym wsparciem technicznym i certyfikatami jakości." },
+    { "title": "Precyzja CNC", "description": "Najnowocześniejsze obrabiarki CNC osiągają precyzję na poziomie mikrometrów." },
+    { "title": "Wsparcie techniczne", "description": "Nasi technicy znają każdy produkt do detalu. Doradzamy w wyborze odpowiedniej części." }
+  ],
+  "whatWeDoTitle": "Co produkujemy",
+  "whatWeDoText": "Nasz zakład wykorzystuje najnowocześniejsze technologie CNC dla wyjątkowej precyzji obróbki.",
+  "productList": [
+    "Bloki silników 4V i 6V",
+    "Głowice cylindrów i kompletne głowice z zaworami",
+    "Wałki rozrządu 4V i 6V",
+    "Miski olejowe",
+    "Popychacze zaworów i mechanizmy sterowania",
+    "Sworznie osi przednich i sworznie centralne"
+  ],
+  "forWhomTitle": "Współpraca",
+  "applications": [
+    { "title": "Rozszerzamy sieć dystrybutorów", "description": "Szukamy nowych partnerów" },
+    { "title": "Sprzedaż", "description": "Towar dostarczamy na podstawie zamówienia" },
+    { "title": "Kontakt", "description": "Skontaktuj się z nami z dowolnym pytaniem" },
+    { "title": "Produkty", "description": "Zobacz naszą ofertę produktów" }
+  ],
+  "ctaTitle": "Martin Diesel to słowacka jakość rzemieślniczo-maszynowa",
+  "ctaText": "Połączona z nowoczesną technologią produkcyjną. Produkujemy części, na które możesz liczyć."
+}

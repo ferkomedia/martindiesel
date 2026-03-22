@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import fs from 'node:fs';
+let d: any = {};
+try { d = JSON.parse(fs.readFileSync('src/content/pages/about-pl.json', 'utf-8')); } catch {}
+---
+<BaseLayout title="O nas | Martin Diesel">
+  <div class="page-hero"><div class="page-hero-inner">
+    <span class="hero-label">O nas</span>
+    <h1>{d.heroTitle||''} <span class="hero-accent">{d.heroAccent||''}</span></h1>
+    {d.heroDesc && <p class="hero-desc">{d.heroDesc}</p>}
+    {d.stats?.length > 0 && (<div class="stats-row">{d.stats.map((s:any)=>(<div class="st"><span class="st-n">{s.number}</span><span class="st-l">{s.label}</span></div>))}</div>)}
+  </div></div>
+  <div class="ab"><h2>{d.whoWeAreTitle||''}</h2>{(d.whoWeAreText||'').split('\n\n').map((p:string)=><p>{p}</p>)}</div>
+  {d.features?.length > 0 && (<div class="ag">{d.features.map((f:any)=>(<div class="ac"><h3>{f.title}</h3><p>{f.description}</p></div>))}</div>)}
+  <div class="ab"><h2>{d.whatWeDoTitle||''}</h2>{d.whatWeDoText&&<p>{d.whatWeDoText}</p>}
+    {d.productList?.length > 0 && (<div class="cl">{d.productList.map((item:string)=>(<div class="ci"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round"><path d="M9 12l2 2 4-4"/></svg><span>{item}</span></div>))}</div>)}
+  </div>
+  {d.applications?.length > 0 && (<div class="ab"><h2>{d.forWhomTitle||''}</h2><div class="ug">{d.applications.map((a:any)=>(<div class="ui"><strong>{a.title}</strong><span>{a.description}</span></div>))}</div></div>)}
+  <div class="acta"><div><h2>{d.ctaTitle||''}</h2><p>{d.ctaText||''}</p></div><a href="/pl/kontakt" class="btn btn-primary">Skontaktuj się →</a></div>
+</BaseLayout>
+<style>
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;margin-top:2.5rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,.1)}
+.st{display:flex;flex-direction:column}.st-n{font-family:var(--font-display);font-size:1.5rem;font-weight:800;color:#22c55e;margin-bottom:.2rem}.st-l{font-size:.8rem;color:#64748b}
+@media(max-width:768px){.stats-row{grid-template-columns:1fr 1fr}}
+.ab{margin-bottom:3rem}.ab h2{font-size:1.4rem;margin-bottom:.75rem}.ab p{font-size:.95rem;color:var(--c-text-2);line-height:1.7;margin-bottom:.75rem;max-width:680px}
+.ag{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;margin-bottom:3rem}
+.ac{padding:1.5rem;border-radius:12px;background:var(--c-bg-alt);border:1px solid var(--c-border)}.ac h3{font-size:1rem;margin-bottom:.3rem}.ac p{font-size:.85rem;color:var(--c-text-2);line-height:1.6}
+@media(max-width:960px){.ag{grid-template-columns:repeat(2,1fr)}}@media(max-width:520px){.ag{grid-template-columns:1fr}}
+.cl{display:grid;grid-template-columns:repeat(2,1fr);gap:.5rem;margin-top:1rem}.ci{display:flex;align-items:center;gap:.5rem;font-size:.9rem;font-weight:500;padding:.5rem 0}
+.ug{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:1rem}.ui{padding:1rem;border-radius:8px;background:var(--c-bg-alt);border:1px solid var(--c-border)}
+.ui strong{display:block;font-size:.9rem;margin-bottom:.15rem}.ui span{font-size:.8rem;color:var(--c-text-2)}
+@media(max-width:960px){.ug{grid-template-columns:repeat(2,1fr)}}@media(max-width:520px){.ug,.cl{grid-template-columns:1fr}}
+.acta{display:flex;align-items:center;justify-content:space-between;gap:2rem;background:var(--c-bg-alt);border:1px solid var(--c-border);border-radius:16px;padding:2.5rem}
+.acta h2{font-size:1.3rem;margin-bottom:.3rem}.acta p{font-size:.9rem;color:var(--c-text-2);margin-bottom:0}
+@media(max-width:768px){.acta{flex-direction:column;text-align:center;padding:2rem 1.5rem}}
+</style>

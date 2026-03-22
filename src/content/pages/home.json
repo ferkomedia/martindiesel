@@ -1,0 +1,30 @@
+{
+  "heroBadge": "Slovenská výroba",
+  "heroTitle": "Výrobca originálnych motorových dielov",
+  "heroSubtitle": "Martin Diesel – sme výrobca s vlastnou produkciou, kde každý diel prechádza prísnou kontrolou kvality od prvého kroku výrobného procesu až po finálnu expedíciu.",
+  "ctaText": "Katalóg produktov",
+  "ctaLink": "/produkty",
+  "cta2Text": "Kontaktujte nás",
+  "cta2Link": "/kontakt",
+  "heroStats": [
+    { "number": "50+", "label": "rokov tradície" },
+    { "number": "CNC", "label": "presné obrábanie" },
+    { "number": "URII", "label": "a URIV motory" }
+  ],
+  "features": [
+    { "title": "Slovenská výroba motorových dielov", "description": "Každý komponent vyrábame priamo v našej prevádzke s plnou kontrolou kvality." },
+    { "title": "Od výrobcu priamo k Vám", "description": "Bez sprostredkovateľov, s kompletnou technickou podporou a certifikátmi kvality." },
+    { "title": "Presnosť, na ktorú sa môžete spoľahnúť", "description": "Moderné CNC technológie zaručujú opakovateľnosť a presnosť každého vyrobeného dielu." },
+    { "title": "Komunikujte priamo s výrobcom", "description": "Výhodou spolupráce s nami je priama komunikácia s výrobcom, flexibilita pri sériových aj individuálnych zákazkách a technická podpora pri výbere správnych dielov." }
+  ],
+  "productsLabel": "Katalóg produktov",
+  "productsTitle": "Náhradné diely pre motory URII a URIV",
+  "productsBtnText": "Všetky produkty",
+  "productCardLink": "Viac info",
+  "blogLabel": "Blog",
+  "blogTitle": "Technické články",
+  "blogCardLink": "Čítať",
+  "ctaBottomTitle": "Výroba originálnych náhradných dielov pre motory URII a URIV",
+  "ctaBottomText": "Naša výrobná prevádzka využíva najmodernejšie CNC technológie, ktoré nám umožňujú dosiahnuť mimoriadnu presnosť obrábania.",
+  "ctaBottomBtnText": "Napíšte nám"
+}
