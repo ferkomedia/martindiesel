@@ -7,6 +7,7 @@ const storage = isLocal
   : { kind: 'cloud' as const };
 
 export default config({
+  cloud: { project: "martindiesel/martindiesel" as const },
   storage,
   singletons: {
     siteSettings: singleton({
