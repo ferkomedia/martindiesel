@@ -5,6 +5,8 @@ import markdoc from '@astrojs/markdoc';
 import keystatic from '@keystatic/astro';
 import cloudflare from '@astrojs/cloudflare';
 
+import sitemap from '@astrojs/sitemap';
+
 export default defineConfig({
   output: 'static',
   adapter: cloudflare(),
@@ -12,6 +14,7 @@ export default defineConfig({
     react(),
     markdoc(),
     keystatic({ cloud: { project: 'martindiesel/martindiesel' } }),
+    sitemap(),
   ],
   site: 'https://martindiesel.sk',
 });
