@@ -3,7 +3,7 @@ import { Resend } from 'resend';
 
 export const prerender = false;
 
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, locals }) => {
   try {
     const { name, email, phone, subject, catalogNumber, message } = await request.json();
 
@@ -14,11 +14,23 @@ export const POST: APIRoute = async ({ request }) => {
       );
     }
 
-    const resend = new Resend(import.meta.env.RESEND_API_KEY);
+    const runtime = (locals as any).runtime;
+    const apiKey = runtime?.env?.RESEND_API_KEY || import.meta.env.RESEND_API_KEY;
+    const contactEmail = runtime?.env?.CONTACT_EMAIL || import.meta.env.CONTACT_EMAIL || 'info@martindiesel.sk';
+
+    if (!apiKey) {
+      console.error('RESEND_API_KEY not found');
+      return new Response(
+          JSON.stringify({ error: 'Chýba konfigurácia emailu' }),
+          { status: 500, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
+    const resend = new Resend(apiKey);
 
     const { error } = await resend.emails.send({
       from: 'Martin Diesel – Dopyt <noreply@ferkomedia.sk>',
-      to: [import.meta.env.CONTACT_EMAIL || 'info@martindiesel.sk'],
+      to: [contactEmail],
       subject: `[Dopyt] ${subject}`,
       replyTo: email,
       html: `
