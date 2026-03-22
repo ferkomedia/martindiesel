@@ -17,13 +17,60 @@ export async function getStaticPaths() {
 
 const { product } = Astro.props;
 const { Content } = await render(product);
+const slug = product.id.replace(/\.mdoc$/, '').replace(/\.md$/, '');
 const cats: Record<string,string> = { bloky:'Bloky motorov', hlavy:'Hlavy valcov', hriadele:'Vačkové hriadele', vane:'Olejové vane', capy:'Čapy a zdvíhadlá', subory:'Súbory komponentov' };
 const catLabel = cats[product.data.category||'']||'Náhradný diel';
 const motors: Record<string,string> = { urii:'URII', uriv:'URIV', both:'URII / URIV' };
 const motorLabel = motors[product.data.motorType||'both']||'';
 const phone = siteData.phone || '+421 43 4224 130';
+
+// SEO: extract catalog number from title (e.g. "Blok motora 4V 89002599" → "89002599")
+const catNum = product.data.title.match(/\d{8}/)?.[0] || '';
+const seoTitle = `${product.data.title} | ${catLabel} | Martin Diesel`;
+const seoDesc = product.data.shortDescription
+    ? `${product.data.shortDescription} Katalógové číslo ${catNum}. Výrobca Martin Diesel, Martin, Slovensko.`
+    : `${product.data.title} — originálny náhradný diel pre motory ${motorLabel || 'URII / URIV'}. Katalógové číslo ${catNum}. Martin Diesel.`;
+const canonicalUrl = `https://martindiesel.sk/produkty/${slug}`;
+const imageUrl = product.data.featuredImage ? `https://martindiesel.sk${product.data.featuredImage}` : '';
+
+// JSON-LD Product schema
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": product.data.title,
+  "description": product.data.shortDescription || seoDesc,
+  "sku": catNum,
+  "mpn": catNum,
+  "brand": { "@type": "Brand", "name": "Martin Diesel" },
+  "manufacturer": {
+    "@type": "Organization",
+    "name": "Martin Diesel",
+    "url": "https://martindiesel.sk",
+    "address": { "@type": "PostalAddress", "streetAddress": "Langsfeldova 1", "addressLocality": "Martin", "postalCode": "036 01", "addressCountry": "SK" }
+  },
+  "category": catLabel,
+  ...(imageUrl ? { "image": imageUrl } : {}),
+  "url": canonicalUrl,
+  "offers": {
+    "@type": "Offer",
+    "availability": "https://schema.org/InStock",
+    "priceCurrency": "EUR",
+    "price": "0",
+    "priceValidUntil": "2027-12-31",
+    "url": canonicalUrl,
+    "seller": { "@type": "Organization", "name": "Martin Diesel" }
+  }
+};
 ---
-<BaseLayout title={`${product.data.title} | Martin Diesel`}>
+<BaseLayout title={seoTitle} description={seoDesc}>
+  <Fragment slot="head">
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:type" content="product" />
+    <meta property="product:brand" content="Martin Diesel" />
+    {catNum && <meta property="product:retailer_item_id" content={catNum} />}
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </Fragment>
+
   <div class="page-hero"><div class="page-hero-inner">
     <a href="/produkty" class="blink">← {d.detailBackText||'Všetky produkty'}</a>
     <div class="hero-meta"><span class="hero-cat">{catLabel}</span>{motorLabel&&<span class="hero-cat" style="background:rgba(255,255,255,.1);color:#e2e8f0">{motorLabel}</span>}</div>
@@ -43,16 +90,16 @@ const phone = siteData.phone || '+421 43 4224 130';
   </article>
 </BaseLayout>
 <style>
-.blink{display:inline-flex;align-items:center;gap:.4rem;color:#64748b;text-decoration:none;font-family:var(--font-display);font-weight:500;font-size:.85rem;margin-bottom:1.5rem;transition:color .2s}.blink:hover{color:#fff}
-.pd{padding:0 0 4rem}.pd-media{margin-bottom:2rem;border-radius:var(--r);overflow:hidden;border:1px solid var(--c-border)}
-.pd-img{width:100%;max-height:480px;object-fit:cover;display:block}
-.pd-actions{display:flex;gap:.75rem;margin-bottom:2.5rem;flex-wrap:wrap}
-.pd-content :global(h1){display:none}.pd-content :global(h2){font-size:1.3rem;margin:2rem 0 .75rem}
-.pd-content :global(h3){font-size:1.1rem;margin:1.5rem 0 .5rem}
-.pd-content :global(p){margin-bottom:1rem;color:var(--c-text-2);line-height:1.8;font-size:.95rem}
-.pd-content :global(ul){margin:.5rem 0 1rem 1.25rem;color:var(--c-text-2)}
-.pd-content :global(li){margin-bottom:.3rem;line-height:1.7}
-.pd-cta{display:flex;align-items:center;gap:1.25rem;background:var(--c-bg-alt);border:1px solid var(--c-border);border-radius:var(--r);padding:1.5rem 2rem;margin-top:2.5rem}
-.pd-cta h3{font-size:1rem;margin-bottom:.1rem}.pd-cta p{font-size:.82rem;color:var(--c-text-2);margin-bottom:0}.pd-cta .btn{flex-shrink:0;margin-left:auto}
-@media(max-width:768px){.pd-actions{flex-direction:column}.pd-actions .btn{justify-content:center}.pd-cta{flex-direction:column;text-align:center}.pd-cta .btn{margin-left:0}}
+  .blink{display:inline-flex;align-items:center;gap:.4rem;color:#64748b;text-decoration:none;font-family:var(--font-display);font-weight:500;font-size:.85rem;margin-bottom:1.5rem;transition:color .2s}.blink:hover{color:#fff}
+  .pd{padding:0 0 4rem}.pd-media{margin-bottom:2rem;border-radius:var(--r);overflow:hidden;border:1px solid var(--c-border)}
+  .pd-img{width:100%;max-height:480px;object-fit:cover;display:block}
+  .pd-actions{display:flex;gap:.75rem;margin-bottom:2.5rem;flex-wrap:wrap}
+  .pd-content :global(h1){display:none}.pd-content :global(h2){font-size:1.3rem;margin:2rem 0 .75rem}
+  .pd-content :global(h3){font-size:1.1rem;margin:1.5rem 0 .5rem}
+  .pd-content :global(p){margin-bottom:1rem;color:var(--c-text-2);line-height:1.8;font-size:.95rem}
+  .pd-content :global(ul){margin:.5rem 0 1rem 1.25rem;color:var(--c-text-2)}
+  .pd-content :global(li){margin-bottom:.3rem;line-height:1.7}
+  .pd-cta{display:flex;align-items:center;gap:1.25rem;background:var(--c-bg-alt);border:1px solid var(--c-border);border-radius:var(--r);padding:1.5rem 2rem;margin-top:2.5rem}
+  .pd-cta h3{font-size:1rem;margin-bottom:.1rem}.pd-cta p{font-size:.82rem;color:var(--c-text-2);margin-bottom:0}.pd-cta .btn{flex-shrink:0;margin-left:auto}
+  @media(max-width:768px){.pd-actions{flex-direction:column}.pd-actions .btn{justify-content:center}.pd-cta{flex-direction:column;text-align:center}.pd-cta .btn{margin-left:0}}
 </style>

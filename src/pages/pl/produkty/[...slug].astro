@@ -14,21 +14,90 @@ export async function getStaticPaths() {
 
 const { product, skProduct } = Astro.props;
 const { Content } = await render(product);
+const slug = product.id.replace(/\.mdoc$/, '').replace(/\.md$/, '');
 const img = product.data.featuredImage || skProduct?.data?.featuredImage || '';
 const cats: Record<string,string> = { bloky:'Bloki silników', hlavy:'Głowice cylindrów', hriadele:'Wałki rozrządu', vane:'Miski olejowe', capy:'Sworznie', subory:'Zestawy komponentów' };
 const catLabel = cats[product.data.category||'']||'Część zamienna';
+
+// SEO: extract catalog number from title
+const catNum = product.data.title.match(/\d{8}/)?.[0] || '';
+
+// Polish keyword map for better Google PL ranking
+const plKeywords: Record<string,string> = {
+  '89002599': 'kadłub blok silnika 4V Ursus C-385 Zetor URII',
+  '83005501': 'głowica cylindrów Ursus C-385 Zetor 8011 URII',
+  '89005509': 'głowica kompletna z zaworami 6-cyl Ursus Zetor URII',
+  '86002003': 'miska olejowa 6-cyl Ursus C-385 Zetor URII',
+  '83004509': 'wałek rozrządu 4V Ursus C-385 Zetor URII',
+  '89004501': 'wałek rozrządu 6V Ursus Zetor URII',
+  '64000311': 'popychacz zaworów dźwignia zaworowa URII Ursus',
+  '80200032': 'czop środkowy wału korbowego URII Ursus',
+  '64015984': 'czop osi przedniej sworzeń zwrotnicy UR IV Ursus',
+  '83005529': 'mechanizm sterowania zaworami URII Ursus Zetor',
+};
+const keywords = plKeywords[catNum] || '';
+
+const seoTitle = `${product.data.title} | ${catLabel} | Martin Diesel`;
+const seoDesc = product.data.shortDescription
+    ? `${product.data.shortDescription} Numer katalogowy ${catNum}. Producent Martin Diesel, Słowacja. ${keywords}`
+    : `${product.data.title} — oryginalna część zamienna do silników URII / URIV. Nr kat. ${catNum}. Producent Martin Diesel. ${keywords}`;
+const canonicalUrl = `https://martindiesel.sk/pl/produkty/${slug}`;
+const imageUrl = img ? `https://martindiesel.sk${img}` : '';
+
+// JSON-LD Product schema with Polish data
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": product.data.title,
+  "description": seoDesc,
+  "sku": catNum,
+  "mpn": catNum,
+  "brand": { "@type": "Brand", "name": "Martin Diesel" },
+  "manufacturer": {
+    "@type": "Organization",
+    "name": "Martin Diesel",
+    "url": "https://martindiesel.sk",
+    "address": { "@type": "PostalAddress", "streetAddress": "Langsfeldova 1", "addressLocality": "Martin", "postalCode": "036 01", "addressCountry": "SK" }
+  },
+  "category": catLabel,
+  ...(imageUrl ? { "image": imageUrl } : {}),
+  "url": canonicalUrl,
+  "offers": {
+    "@type": "Offer",
+    "availability": "https://schema.org/InStock",
+    "priceCurrency": "EUR",
+    "price": "0",
+    "priceValidUntil": "2027-12-31",
+    "url": canonicalUrl,
+    "seller": { "@type": "Organization", "name": "Martin Diesel" }
+  },
+  "additionalProperty": [
+    { "@type": "PropertyValue", "name": "Numer katalogowy", "value": catNum },
+    { "@type": "PropertyValue", "name": "Kompatybilność", "value": "Ursus C-385, Zetor 8011, URII, URIV" },
+    { "@type": "PropertyValue", "name": "Producent", "value": "Martin Diesel, Martin, Słowacja" }
+  ]
+};
 ---
-<BaseLayout title={`${product.data.title} | Martin Diesel`}>
+<BaseLayout title={seoTitle} description={seoDesc}>
+  <Fragment slot="head">
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:type" content="product" />
+    <meta property="product:brand" content="Martin Diesel" />
+    {catNum && <meta property="product:retailer_item_id" content={catNum} />}
+    <meta name="keywords" content={`${catNum}, ${product.data.title}, ${keywords}, Martin Diesel, części zamienne, URII, URIV, Ursus, Zetor, C-385`} />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </Fragment>
+
   <div class="page-hero"><div class="page-hero-inner">
     <a href="/pl/produkty" class="blink">← Wszystkie produkty</a>
     <div class="hero-meta"><span class="hero-cat">{catLabel}</span></div>
     <h1>{product.data.title}</h1>{product.data.shortDescription&&<p class="hero-desc">{product.data.shortDescription}</p>}
   </div></div>
   <article class="pd">
-    {img&&(<div class="pd-media"><img src={img} alt={product.data.title} class="pd-img"/></div>)}
+    {img&&(<div class="pd-media"><img src={img} alt={`${product.data.title} — ${keywords}`} class="pd-img"/></div>)}
     <div class="pd-actions"><a href="/pl/kontakt" class="btn btn-primary">Zapytaj o tę część →</a><a href="tel:+421434224130" class="btn btn-outline">+421 43 4224 130</a></div>
     <div class="pd-content"><Content /></div>
-    <div class="pd-cta"><div><h3>Potrzebujesz tę część?</h3><p>Skontaktuj się z naszym zespołem handlowym.</p></div><a href="/pl/kontakt" class="btn btn-primary">Wyślij zapytanie →</a></div>
+    <div class="pd-cta"><div><h3>Potrzebujesz tę część?</h3><p>Skontaktuj się z naszym zespołem handlowym. Wysyłka do Polski.</p></div><a href="/pl/kontakt" class="btn btn-primary">Wyślij zapytanie →</a></div>
   </article>
 </BaseLayout>
 <style>
