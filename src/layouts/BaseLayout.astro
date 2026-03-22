@@ -53,13 +53,14 @@ const plPath = isPL ? currentPath : '/pl' + currentPath;
   <link rel="apple-touch-icon" href="/icons/icon-192.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;700&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;700&display=swap" /></noscript>
 </head>
 <body>
 <header class="site-header" id="site-header">
   <div class="header-inner">
     <a href={isPL ? '/pl/' : '/'} class="logo">
-      {logo && <img src={logo} alt={siteName} class="logo-img" />}
+      {logo && <img src={logo} alt={siteName} class="logo-img" width="160" height="36" fetchpriority="high" />}
       <span class="logo-text">{siteName}</span>
     </a>
     <nav class="nav-desktop">
@@ -77,7 +78,7 @@ const plPath = isPL ? currentPath : '/pl' + currentPath;
 <div class="overlay" id="overlay"></div>
 <nav class="offcanvas" id="offcanvas">
   <div class="oc-header">
-    <a href={isPL ? '/pl/' : '/'} class="logo">{logo && <img src={logo} alt={siteName} class="logo-img" />}<span class="logo-text">{siteName}</span></a>
+    <a href={isPL ? '/pl/' : '/'} class="logo">{logo && <img src={logo} alt={siteName} class="logo-img" width="120" height="30" />}<span class="logo-text">{siteName}</span></a>
     <button class="oc-close" id="oc-close" aria-label="Zatvoriť"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
   </div>
   <div class="oc-links">{navItems.map((item: any) => (<a href={item.href} class:list={[{ active: item.href === '/' ? currentPath === '/' : currentPath.startsWith(item.href) }]}>{item.label}</a>))}</div>
@@ -131,7 +132,7 @@ h1,h2,h3,h4{font-family:var(--font-display);font-weight:700;line-height:1.2;lett
 .logo{display:flex;align-items:center;gap:.55rem;text-decoration:none;font-family:var(--font-display);font-weight:800;font-size:1.1rem;color:var(--c-text)}
 .logo-img{height:36px;width:auto}.logo-img-light{opacity:.9}
 .nav-desktop{display:flex;align-items:center;gap:.15rem}
-.nav-desktop a{text-decoration:none;font-family:var(--font-display);font-weight:500;font-size:.9rem;color:var(--c-text-2);padding:.45rem .9rem;border-radius:var(--r-sm);transition:color .2s,background .2s}
+.nav-desktop a{text-decoration:none;font-family:var(--font-display);font-weight:600;font-size:.9rem;color:var(--c-text-2);padding:.45rem .9rem;border-radius:var(--r-sm);transition:color .2s,background .2s}
 .nav-desktop a:hover,.nav-desktop a.active{color:var(--c-primary);background:var(--c-primary-bg)}
 .nav-desktop a.nav-cta{background:var(--c-primary);color:#fff;margin-left:.4rem;padding:.45rem 1.1rem;font-weight:600}
 .nav-desktop a.nav-cta:hover{background:var(--c-primary-dark);color:#fff}
@@ -149,7 +150,7 @@ h1,h2,h3,h4{font-family:var(--font-display);font-weight:700;line-height:1.2;lett
 .oc-header .logo-img{height:30px}
 .oc-close{background:none;border:none;cursor:pointer;padding:.3rem;color:var(--c-text);border-radius:var(--r-sm)}
 .oc-links{flex:1;padding:1rem 0;overflow-y:auto}
-.oc-links a{display:block;text-decoration:none;font-family:var(--font-display);font-weight:500;font-size:1.05rem;color:var(--c-text-2);padding:.85rem 1.5rem;transition:background .2s,color .2s}
+.oc-links a{display:block;text-decoration:none;font-family:var(--font-display);font-weight:600;font-size:1.05rem;color:var(--c-text-2);padding:.85rem 1.5rem;transition:background .2s,color .2s}
 .oc-links a:hover,.oc-links a.active{background:var(--c-primary-bg);color:var(--c-primary)}
 .oc-footer{padding:1.25rem 1.5rem;border-top:1px solid var(--c-border);background:var(--c-bg-alt)}
 .oc-phone{display:inline-flex;align-items:center;gap:.4rem;text-decoration:none;font-family:var(--font-display);font-weight:700;font-size:.95rem;color:var(--c-primary)}
