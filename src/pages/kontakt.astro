@@ -37,7 +37,7 @@ const subjects = d.formSubjects || [];
 <script>
   const f=document.getElementById('cf') as HTMLFormElement,s=document.getElementById('fs') as HTMLDivElement;
   f.addEventListener('submit',async(e)=>{e.preventDefault();s.textContent='Odosielam...';s.className='fs sending';
-    const d=Object.fromEntries(new FormData(f));
+    const d=Object.fromEntries(new FormData(f));d.lang='sk';
     try{const r=await fetch('/api/contact',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)});
       if(r.ok){s.textContent='Dopyt odoslaný!';s.className='fs ok';f.reset();typeof gtag!=='undefined'&&gtag('event','generate_lead',{currency:'EUR',value:50})}else throw 0}catch{s.textContent='Chyba. Zavolajte nám.';s.className='fs err'}});
 </script>
